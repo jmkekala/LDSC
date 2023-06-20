@@ -29,11 +29,6 @@ rule run_ldsc:
     params:
         bfile="1000G_EUR_Phase3_plink1/1000G.EUR.QC.{chrom}",
         output=output_pattern.format(set="{set}", chrom="{chrom}")
-    # Define some resources. Looks like SLURM currently does not recognize parameters
-    resources:
-        mem_mb="12000",
-        runtime="01:00:00",
-        slurm_partition="serial",
     # Use pre-installed "ldsc" conda environment
     conda:
         "ldsc"

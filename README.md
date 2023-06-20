@@ -13,5 +13,5 @@ conda env create --file environment.yml
 ## How To run with SLURM
 
 ```
-    snakemake --cores all --jobs 20 --cluster 'sbatch -t 1:00:00 --mem=12000'
+snakemake --cores all --jobs 20 --cluster 'sbatch -t 1:00:00 --mem=12000'
 ```

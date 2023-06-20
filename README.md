@@ -1,13 +1,14 @@
 # SNAKEMAKE - LDSC
-# author: Juha Kekäläinen (juha.kekalainen at uef.fi)
 
 This little snakemake script will execute [LDSC](https://github.com/bulik/ldsc) runs
 
 ## Install LDSC
 
+```
 git clone https://github.com/bulik/ldsc.git
 cd ldsc
 conda env create --file environment.yml
+```
 
 ## How To run with SLURM
 

@@ -5,12 +5,17 @@ bfile_pattern = "1000G_EUR_Phase3_plink1/1000G.EUR.QC.{chrom}.bed"
 annotation_pattern = "for_testing/ASPC_random_set{set}.txt.{chrom}.annot.gz"
 output_pattern = "results/ASPC_random_set{set}.txt.{chrom}"
 
-CHROMOSOMES = list(range(1, 22))
-SET_LIST = list(range(1, 10))
+CHROMOSOMES = glob_wildcards("1000G_EUR_Phase3_plink1/1000G.EUR.QC.{condition}.bed").condition
+SET_LIST = glob_wildcards("for_testing/ASPC_random_set{condition}.txt.{chrom}.annot.gz").condition
+
+# Make sure lists contain unique values and sort them in numerical order
+CHROMOSOMES = list(set(CHROMOSOMES))
+SET_LIST = list(set(SET_LIST))
+CHROMOSOMES = sorted(CHROMOSOMES, key=lambda x: int(x))
+SET_LIST = sorted(SET_LIST, key=lambda x: int(x))
 
 print("Chromosomes are: ", CHROMOSOMES)
 print("Annotation sets are: ", SET_LIST)
-
 
 # Rule to collect all final results
 rule all:
@@ -29,11 +34,6 @@ rule run_ldsc:
     params:
         bfile="1000G_EUR_Phase3_plink1/1000G.EUR.QC.{chrom}",
         output=output_pattern.format(set="{set}", chrom="{chrom}")
-    # Define some resources. Looks like SLURM currently does not recognize parameters
-    resources:
-        mem_mb="12000",
-        runtime="01:00:00",
-        slurm_partition="serial",
     # Use pre-installed "ldsc" conda environment
     conda:
         "ldsc"

@@ -26,13 +26,13 @@ rule all:
 rule run_ldsc:
     # Track input and annotation
     input:
-        bfile="1000G_EUR_Phase3_plink1/1000G.EUR.QC.{chrom}.bed",
-        annotation="for_testing/ASPC_random_set{set}.txt.{chrom}.annot.gz"
+        bfile=bfile_pattern,
+        annotation=annotation_pattern
     output:
         expand(output_pattern+".l2.ldscore.gz", set="{set}",chrom="{chrom}")
     # Define input and output variables. LDSC requires input _without_ extension. Same applies to output.
     params:
-        bfile="1000G_EUR_Phase3_plink1/1000G.EUR.QC.{chrom}",
+        bfile=bfile_pattern.rsplit(".", 1)[0],
         output=output_pattern.format(set="{set}", chrom="{chrom}")
     # Use pre-installed "ldsc" conda environment
     conda:
